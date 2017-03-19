@@ -5,41 +5,44 @@ var connection = require("./connection.js");
 // ORM
 // =============================================================
 
-var tableName = "burgers";
+// Helper function for SQL syntax.
+function objToSql(ob) {
+  var arr = [];
+
+  for (var key in ob) {
+    if (Object.hasOwnProperty.call(ob, key)) {
+      arr.push(key + "=" + ob[key]);
+    }
+  }
+
+  return arr.toString();
+}
+// var tableName = "burgers";
 
 var orm = {
 
   // Here our ORM is creating a simple method for performing a query of the entire table.
   // We make use of the callback to ensure that data is returned only once the query is done.
-  selectAll: function (callback) {
-    var s = "SELECT * FROM " + tableName;
-    connection.query(s, function (err, result) {
+  selectAll: function (tableName, callback) {
+    var queryString = `SELECT * FROM ${tableName}`;
+    connection.query(queryString, function (err, result) {
       callback(result);
     });
   },
 
-  insertOne: function (burger, callback) {
-    var s = "INSERT INTO " + tableName + " (text, complete) VALUES (?,?)";
-    burger.devoured = false;
-    connection.query(s, [
-      burger.burger_name, burger.devoured
-    ], function (err, result) {
+  insertOne: function (tableName, cols, vals, cb) {
+    var queryString = `INSERT INTO ${tableName} (${cols.toString()}) VALUES (?,?)`;
+    connection.query(queryString, vals, function (err, result) {
       callback(result);
     });
   },
 
-  editburger: function (burger, callback) {
-    var s = "UPDATE " + tableName + " SET text=? WHERE id=?";
-
-    connection.query(s, [
-      burger.devoured, burger.id
-    ], function (err, result) {
-
+  updateOne: function (tableName, objColVal, condition, callback) {
+    var queryString = `UPDATE ${tableName} SET ${objToSql(objColVal)} WHERE id=${condition}`;
+    connection.query(queryString, function (err, result) {
       callback(result);
-
     });
   }
-
 };
 
 module.exports = orm;

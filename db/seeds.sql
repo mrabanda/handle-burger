@@ -8,14 +8,16 @@ VALUES (
 );
 INSERT INTO burgers (
   burger_name,
-  devoured)
+  devoured
+)
 VALUES (
   'Double Hamburger',
   false
 );
 INSERT INTO burgers (
   burger_name,
-  devoured)
+  devoured
+)
 VALUES (
   'Basic Burger',
   false
