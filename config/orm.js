@@ -30,8 +30,9 @@ var orm = {
     });
   },
 
-  insertOne: function (tableName, cols, vals, cb) {
+  insertOne: function (tableName, cols, vals, callback) {
     var queryString = `INSERT INTO ${tableName} (${cols.toString()}) VALUES (?,?)`;
+    console.log(queryString)
     connection.query(queryString, vals, function (err, result) {
       callback(result);
     });

@@ -15,9 +15,9 @@ router.get("/", function (req, res) {
 });
 
 router.post("/", function (req, res) {
-  burger.create(["text", "devoured"],[req.body.text,req.body.devoured], function () {
+  burger.create(["burger_name", "devoured"],[req.body.burger_name,req.body.devoured], function () {
       res.redirect("/");
-    });
+  });
 });
 
 router.put("/:id", function (req, res) {
@@ -31,3 +31,5 @@ router.put("/:id", function (req, res) {
     res.redirect("/");
   });
 });
+
+module.exports = router;
